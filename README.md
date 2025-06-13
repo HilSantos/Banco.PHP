@@ -2,13 +2,23 @@
 Criação de banco de dados pelo php.
 
 <?php
-$servidor = "localhost";
-$banco = "db_35_teste_php";
-$usuario_db = "php_ti35_teste";
-$senha_db = "abc123";
-$link = mysqli_connect($servidor,$usuario_db,$senha_db,$banco);
+// Definição das credenciais de conexão com o banco de dados
+$servidor = "localhost"; // Endereço do servidor
+$banco = "db_35_teste_php"; // Nome do banco de dados
+$usuario_db = "php_ti35_teste"; // Usuário do banco de dados
+$senha_db = "abc123"; // Senha do banco de dados
+
+// Estabelece conexão com o banco de dados utilizando MySQLi
+$link = mysqli_connect($servidor, $usuario_db, $senha_db, $banco);
+
+// Verifica se a conexão foi bem-sucedida
+if (!$link) {
+    die("Falha na conexão: " . mysqli_connect_error());
+}
+
+// Query para buscar todos os registros da tabela 'tb_clientes'
 $sql = "SELECT * FROM tb_clientes";
-$result = mysqli_query($link,$sql);
+$result = mysqli_query($link, $sql); // Executa a query e guarda o resultado
 
 ?>
 <!DOCTYPE html>
@@ -19,6 +29,7 @@ $result = mysqli_query($link,$sql);
     <title>Consulta Banco</title>
 </head>
 <body>
+    <!-- Criação da tabela para exibição dos dados -->
     <table border="1">
         <tr>
             <td>ID</td>
@@ -28,19 +39,21 @@ $result = mysqli_query($link,$sql);
             <td>Data de Nascimento</td>
         </tr>
         <?php
-            while($tbl = mysqli_fetch_array($result)){
+        // Iteração sobre os resultados da query para preenchimento da tabela
+        while($tbl = mysqli_fetch_array($result)){
         ?>
         <tr>
-            <td><?= $tbl[0] ?></td>
-            <td><?= $tbl[1] ?></td>
-            <td><?= $tbl[2] ?></td>
-            <td><?= $tbl[4] ?></td>
-            <td><?= $tbl[3] ?></td>
+            <td><?= $tbl[0] ?></td> <!-- ID do cliente -->
+            <td><?= $tbl[1] ?></td> <!-- Nome do cliente -->
+            <td><?= $tbl[2] ?></td> <!-- Endereço do cliente -->
+            <td><?= $tbl[4] ?></td> <!-- E-mail do cliente -->
+            <td><?= $tbl[3] ?></td> <!-- Data de nascimento do cliente -->
         </tr>
-            <?php
-            }
-            mysqli_close($link);
-            ?>
+        <?php
+        }
+        // Fecha a conexão com o banco de dados após a consulta
+        mysqli_close($link);
+        ?>
     </table>
 </body>
 </html>
